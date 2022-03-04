@@ -56,7 +56,7 @@
           </div>
 
           <div class="d-flex justify-content-end mt-5">
-            <button>UPDATE MARKETER</button>
+            <button>CREATE MARKETER</button>
           </div>
         </form>
       </div>

@@ -33,24 +33,24 @@
         </div>
         <div class="header">
           <div class="row bold-head">
-            <div class="col px-3 py-3">Name</div>
-            <div class="col px-3 py-3">Email</div>
-            <div class="col px-3 py-3">Phone</div>
-            <div class="col px-3 py-3">Username</div>
-            <div class="col px-3 py-3"></div>
-            <div class="col px-3 py-3"></div>
+            <div class="col-sm-3 px-3 py-3">Name</div>
+            <div class="col-sm-3 px-3 py-3">Email</div>
+            <div class="col-sm-2 px-3 py-3">Phone</div>
+            <div class="col-sm-2 px-3 py-3">Username</div>
+            <div class="col-sm-1 px-3 py-3"></div>
+            <div class="col-sm-1 px-3 py-3"></div>
           </div>
 
           <div
-            v-for="(data, index) in datas"
-            :key="index"
+            v-for="data in datas"
+            :key="data.index"
             class="body row py-4 line mx-3"
           >
-            <div class="col">Name</div>
-            <div class="col">Email</div>
-            <div class="col">Phone</div>
-            <div class="col">Username</div>
-            <div class="col">
+            <div class="col-sm-3">{{ data.firstname }} {{ data.lastname }}</div>
+            <div class="col-sm-3">{{ data.email }}</div>
+            <div class="col-sm-2">{{ data.phonenumber }}</div>
+            <div class="col-sm-2">{{ data.username }}</div>
+            <div @click="deleteMarketer(data.username)" class="col-sm-1 point">
               <span
                 class="iconify"
                 data-icon="bxs:trash-alt"
@@ -59,7 +59,7 @@
                 data-height="20"
               ></span>
             </div>
-            <div class="col">
+            <div class="col-sm-1">
               <span
                 class="iconify"
                 data-icon="ic:outline-navigate-next"
@@ -121,6 +121,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import LoginNav from "@/components/LoginNav.vue";
 import Sidebar from "@/components/Sidebar.vue";
 export default {
@@ -128,10 +129,56 @@ export default {
     LoginNav,
     Sidebar,
   },
+
+  mounted() {
+    console.log("wow");
+    this.getAllUsers();
+  },
   data() {
     return {
-      datas: [1, 2, 3],
+      datas: [],
+      message: "",
     };
+  },
+
+  methods: {
+    async getAllUsers() {
+      try {
+        const query = await axios.get("/marketers", {
+          headers: {
+            Authorization: localStorage.getItem("Sigma_Admin_Token"),
+          },
+        });
+        let response = query.data.marketers;
+
+        this.datas = response;
+
+        console.log(this.datas);
+      } catch (error) {
+        if (error.response) {
+          return error.response.data;
+        }
+        if (error.request) {
+          return error.request;
+        }
+      }
+    },
+
+    async deleteMarketer(id) {
+      try {
+        let response = await axios.delete(`/marketers/${id}`, {
+          headers: {
+            Authorization: localStorage.getItem("Sigma_Admin_Token"),
+          },
+        });
+        if (response.status === 200) {
+          this.message = response;
+          console.log(response.data);
+        }
+      } catch (error) {
+        return error;
+      }
+    },
   },
 };
 </script>
@@ -140,7 +187,7 @@ export default {
 .bg {
   background: #ecffeb;
   height: 92vh;
-  padding-left: 20rem;
+  padding-left: 18rem;
   padding-right: 5rem;
 }
 .line {
@@ -166,7 +213,7 @@ a {
 }
 
 input {
-  width: 45vw;
+  width: 32rem;
   height: 40px;
   font-family: "Roboto", sans-serif;
   font-weight: 500;
@@ -180,6 +227,10 @@ input {
   top: 5px;
   right: 20px;
   color: #5d5d5d;
+}
+
+.point {
+  cursor: pointer;
 }
 
 .pagination p {
@@ -209,6 +260,14 @@ input {
   position: relative;
   right: 20px;
   bottom: 2px;
+}
+
+.line .col {
+  font-size: 14px;
+}
+
+.out {
+  font-size: 14px;
 }
 
 .bold-head {

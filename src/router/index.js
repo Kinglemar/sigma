@@ -47,7 +47,7 @@ const router = new VueRouter({
 
 // router.beforeEach((to, from, next) => {
 //   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (localStorage.getItem('app_token') === null) {
+//     if (localStorage.getItem('Sigma_Admin_Token') === null) {
 //       next('/Home')
 //     }
 //     else next();

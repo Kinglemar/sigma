@@ -32,7 +32,7 @@ export default {};
   background-color: #fff;
   position: absolute;
   top: 0;
-  width: 260px;
+  width: 220px;
   height: 100vh;
   color: #5d5d5d;
 }

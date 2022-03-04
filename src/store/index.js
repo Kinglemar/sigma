@@ -1,51 +1,46 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
+import axios from 'axios'
+Vue.use(Vuex)
 
 Vue.use(Vuex);
 
-const axios = require('axios');
 export default new Vuex.Store({
   state: {
-    adminDetails: {
-      id: null,
-      consultant_id: "",
-      firstname: "",
-      lastname: "",
-      phone_number: "",
-      email: "",
-      profile_img_url: "",
-      gender: "",
-      address: "",
-      dob: "",
-      added_by: "",
-      is_Admin: 0,
-      date_created: ""
-    }
-  },
+    adminDetails: null,
+    token: ''
+  }
+  ,
   mutations: {
-    loginAdmin(payload) {
+    SET_DETAILS(state, response) {
+      state.adminDetails = response
+    },
 
-      // var data = '{\r\n    "username":"admin",\r\n    "password":"xor1gyrd"\r\n}';
-      var data = payload
-      console.log(data)
-      var config = {
-        method: 'post',
-        url: '{{URL}}/consultant_auth',
-        headers: {},
-        data: data
-      };
-
-      axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    SET_TOKEN(state, token) {
+      state.token = token
     }
   },
   actions: {
+    async loginAdmin({ commit }, { username, password }) {
+      try {
+        let query = await axios.post('/consultant_auth', { "username": username, "password": password });
+        const response = query.data
+        if (query.status === 200) {
+          localStorage.setItem('Sigma_Admin_Token', response.token)
+          commit('SET_DETAILS', response)
+          commit('SET_TOKEN', response.token)
+        }
 
+      } catch (error) {
+        if (error.response) {
+          return error.response.data;
+        }
+        else if (error.request) {
+          return error.request;
+        }
+        return error
+      }
+    }
   },
   modules: {},
 });
