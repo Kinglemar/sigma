@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Table from "../views/Table.vue";
+import Newmarketer from "../views/Newmarketer.vue";
+import Marketerpage from "../views/Marketerpage.vue";
+import Dashboard from "../views/Dashboard.vue";
 
 Vue.use(VueRouter);
 
@@ -12,9 +14,19 @@ const routes = [
     component: Home,
   },
   {
-    path: "/Table",
-    name: "Table",
-    component: Table,
+    path: "/Dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+  },
+  {
+    path: "/Newmarketer",
+    name: "Newmarketer",
+    component: Newmarketer,
+  },
+  {
+    path: "/Marketerpage",
+    name: "Marketerpage",
+    component: Marketerpage,
   },
   {
     path: "/about",

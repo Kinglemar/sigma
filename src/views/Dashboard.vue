@@ -8,7 +8,7 @@
         <h2>Marketing Consultants</h2>
       </div>
       <div class="d-flex justify-content-end">
-        <button>
+        <router-link to="/New-marketer">
           <span
             class="iconify pb-1"
             data-icon="akar-icons:plus"
@@ -18,11 +18,11 @@
             data-rotate="90deg"
           ></span>
           Add New Marketing Consultants
-        </button>
+        </router-link>
       </div>
       <b-card class="mt-5 p-0 border shadow">
         <div class="d-flex justify-content-end">
-          <input type="search" />
+          <input placeholder="Search" type="search" />
           <span
             class="iconify lens"
             data-icon="ant-design:search-outlined"
@@ -32,7 +32,7 @@
           ></span>
         </div>
         <div class="header">
-          <div class="row">
+          <div class="row bold-head">
             <div class="col px-3 py-3">Name</div>
             <div class="col px-3 py-3">Email</div>
             <div class="col px-3 py-3">Phone</div>
@@ -55,48 +55,48 @@
                 class="iconify"
                 data-icon="bxs:trash-alt"
                 style="color: #ff4f4d"
+                data-width="20"
+                data-height="20"
+              ></span>
+            </div>
+            <div class="col">
+              <span
+                class="iconify"
+                data-icon="ic:outline-navigate-next"
+                style="color: #b16a68"
                 data-width="24"
                 data-height="24"
               ></span>
             </div>
-            <div class="col">Icon</div>
           </div>
         </div>
 
-        <div class="pagination d-flex justify-content-end mt-4">
+        <div
+          class="pagination d-flex align-items-center justify-content-end mt-4"
+        >
           <div class="px-3">
             <p>Rows per page:</p>
           </div>
-          <div>
-            <!-- <select class="options" name="" id="">
+          <div class="d-flex">
+            <select class="options pb-1" name="" id="">
               <option value="10">10</option>
               <option value="15">15</option>
               <option value="20">20</option>
-            </select> -->
-
-            <!-- <b-dropdown
-              id="dropdown-1"
-              text="10"
-              size="sm"
-              @input="filterAPI"
-              class="m-md-2"
-            >
-              <b-dropdown-item>10</b-dropdown-item>
-              <b-dropdown-item>15</b-dropdown-item>
-              <b-dropdown-item>20</b-dropdown-item>
-            </b-dropdown> -->
-
-            <b-dropdown size="sm" text="Small Split" class="m-2">
-              <b-dropdown-item-button>10</b-dropdown-item-button>
-              <b-dropdown-item-button>15</b-dropdown-item-button>
-              <b-dropdown-item-button>20</b-dropdown-item-button>
-            </b-dropdown>
+            </select>
+            <span class="caret">
+              <span
+                class="iconify"
+                data-icon="ant-design:caret-down-filled"
+                data-width="18"
+                data-height="18"
+              ></span>
+            </span>
           </div>
           <div class="px-3">
             <p>1-3 of 3</p>
           </div>
           <div>
-            <span>
+            <span class="px-3">
               <span
                 class="iconify"
                 data-icon="ic:baseline-navigate-next"
@@ -136,7 +136,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .bg {
   background: #ecffeb;
   height: 92vh;
@@ -151,27 +151,28 @@ export default {
 .header .row {
   margin: 0 1rem;
   border-bottom: 1px solid #dfdfdf;
+  color: #5d5d5d;
 }
 
-button {
+a {
   border: none;
   background: #039226;
   color: #fff;
   text-align: center;
-  /* width: 280px; */
   border-radius: 14px;
+  text-decoration: none;
+  width: 280px;
+  padding: 4px 3px;
 }
 
 input {
   width: 45vw;
   height: 40px;
-  /* margin-right: 1rem; */
   font-family: "Roboto", sans-serif;
-  /* border-radius: 3px; */
   font-weight: 500;
   border: none;
   border-bottom: 1px solid #5d5d5d;
-  /* color: #5d5d5d; */
+  outline: none;
 }
 
 .lens {
@@ -184,6 +185,7 @@ input {
 .pagination p {
   font-size: 14px;
   margin: 0;
+  text-align: center;
 }
 
 .options {
@@ -191,5 +193,25 @@ input {
   outline: none;
   border: none;
   border-bottom: 1px solid #5d5d5d;
+  outline: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: none;
+  border-color: none;
+}
+
+.caret {
+  position: relative;
+  right: 20px;
+  bottom: 2px;
+}
+
+.bold-head {
+  font-weight: 600;
 }
 </style>

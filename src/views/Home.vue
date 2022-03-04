@@ -63,10 +63,6 @@ const axios = require("axios");
 
 export default {
   name: "Home",
-  // components: {
-  //   LoginNav,
-  //   Sidebar,
-  // },
   data() {
     return {
       login: {
