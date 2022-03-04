@@ -17,25 +17,25 @@ const routes = [
     path: "/Dashboard",
     name: "Dashboard",
     component: Dashboard,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/Newmarketer",
     name: "Newmarketer",
     component: Newmarketer,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/Marketerpage",
     name: "Marketerpage",
     component: Marketerpage,
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];
 
@@ -44,5 +44,14 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     if (localStorage.getItem('app_token') === null) {
+//       next('/Home')
+//     }
+//     else next();
+//   }
+// });
 
 export default router;

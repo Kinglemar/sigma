@@ -8,58 +8,47 @@
         <b-avatar size="8rem" variant="success" text="B.V" class=""></b-avatar>
       </div>
 
-      <div>
+      <div class="pb-3">
         <router-link to="/Marketerpage">PROFILE</router-link>
       </div>
       <div class="bg">
         <form class="form-width">
           <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Firstname</p>
-            <input placeholder="Adeleke" v-model="firstname" type="text" />
+            <p>Name</p>
+            <input v-model="name" type="text" />
           </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Lastname</p>
-            <input placeholder="Abiodun" v-model="lastname" type="text" />
-          </div>
+
           <div class="d-flex py-2 align-items-center justify-content-between">
             <p>Username</p>
-            <input placeholder="Jendel" v-model="username" type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Phone No</p>
-            <input
-              placeholder="08100000000"
-              v-model="phonenumber"
-              type="text"
-            />
+            <input v-model="username" type="text" />
           </div>
           <div class="d-flex py-2 align-items-center justify-content-between">
             <p>Email</p>
-            <input
-              placeholder="jendel@gmail.com"
-              v-model="email"
-              type="email"
-            />
+            <input v-model="email" type="email" />
           </div>
           <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Gender</p>
-            <!-- <input type="text" /> -->
-            <select name="" v-model="gender" id="">
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
+            <p>Phone Number</p>
+            <input v-model="phonenumber" type="text" />
+          </div>
+          <div class="d-flex py-2 align-items-center justify-content-between">
+            <p>Account Name</p>
+            <input type="text" />
+          </div>
+          <div class="d-flex py-2 align-items-center justify-content-between">
+            <p>Account Number</p>
+            <input type="text" />
+          </div>
+          <div class="d-flex py-2 align-items-center justify-content-between">
+            <p>Bank Name</p>
+            <input type="text" />
           </div>
           <div class="d-flex pt-3 justify-content-between">
             <p class="pt-2">Address</p>
-            <textarea
-              p-4
-              placeholder="Enter Address"
-              v-model="address"
-              rows="4"
-              cols="35"
-            >
-            </textarea>
+            <textarea p-4 v-model="address" rows="4" cols="35"> </textarea>
+          </div>
+
+          <div class="d-flex justify-content-end mt-5">
+            <button>UPDATE MARKETER</button>
           </div>
         </form>
       </div>
@@ -161,5 +150,15 @@ a:hover {
 a:active {
   border-bottom: 2px solid #9a6b61;
   color: #000700;
+}
+button {
+  width: 303px;
+  height: 35px;
+  font-family: "Roboto", sans-serif;
+  color: #fff;
+  border: none;
+  background-color: #00932b;
+  border-radius: 3px;
+  border: 1px solid none;
 }
 </style>

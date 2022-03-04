@@ -54,6 +54,10 @@
             >
             </textarea>
           </div>
+
+          <div class="d-flex justify-content-end mt-5">
+            <button>UPDATE MARKETER</button>
+          </div>
         </form>
       </div>
     </div>
@@ -146,5 +150,16 @@ textarea {
   outline: none;
   padding: 1rem;
   color: #5d5d5d;
+}
+
+button {
+  width: 303px;
+  height: 35px;
+  font-family: "Roboto", sans-serif;
+  color: #fff;
+  border: none;
+  background-color: #00932b;
+  border-radius: 3px;
+  border: 1px solid none;
 }
 </style>

@@ -21,7 +21,7 @@
         <h3 class="pt-5 pb-4">WELCOME BACK</h3>
         <div class="px-5">
           <p class="px-5 py-4 ml-4">Input your details to proceed</p>
-          <form class="px-5">
+          <form @submit.prevent="loginHandler(login)" class="px-5">
             <!-- email address input field -->
             <div class="py-3 ml-4">
               <input
@@ -37,15 +37,16 @@
 
             <div class="pt-3 pb-2 ml-4">
               <input
-                type="email"
+                type="password"
                 v-model="login.password"
                 required
                 placeholder="Password"
                 class="forminputs px-3"
               />
             </div>
-
-            <router-link class="gap" to="/">Forgot Password?</router-link>
+            <div class="d-flex justify-content-left">
+              <router-link class="gap" to="/">Forgot Password?</router-link>
+            </div>
 
             <!-- login button -->
             <div class="ml-4">
@@ -59,7 +60,8 @@
 </template>
 
 <script>
-const axios = require("axios");
+import { mapActions } from "vuex";
+// const axios = require("axios");
 
 export default {
   name: "Home",
@@ -73,9 +75,10 @@ export default {
   },
 
   methods: {
-    loginUser() {
-      const response = axios.post(``);
-      console.log(response);
+    ...mapActions(["loginAdmin"]),
+    loginHandler: function (payload) {
+      console.log(payload.email);
+      this.loginAdmin(payload);
     },
   },
 };
@@ -84,7 +87,7 @@ export default {
 <style scoped>
 .first-half {
   background-color: #00932b;
-  height: 100vh;
+  height: 41.7rem;
   color: #fffbff;
 }
 
@@ -144,8 +147,8 @@ a {
   color: #208444;
   text-align: end;
   font-weight: 500;
-  margin-left: 21vw;
-  margin-bottom: 5rem;
+  width: 32vw;
+  /* margin-bottom: 5rem; */
 }
 a:hover {
   text-decoration: none;
