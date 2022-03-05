@@ -7,8 +7,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    adminDetails: null,
-    token: ''
+    adminDetails: [],
+    token: '',
+    userDetails: []
   }
   ,
   mutations: {
@@ -18,7 +19,7 @@ export default new Vuex.Store({
 
     SET_TOKEN(state, token) {
       state.token = token
-    }
+    },
   },
   actions: {
     async loginAdmin({ commit }, { username, password }) {
@@ -40,7 +41,8 @@ export default new Vuex.Store({
         }
         return error
       }
-    }
+    },
+
   },
   modules: {},
 });

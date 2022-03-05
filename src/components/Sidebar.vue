@@ -33,7 +33,7 @@ export default {};
   position: absolute;
   top: 0;
   width: 220px;
-  height: 100vh;
+  height: 62.5rem;
   color: #5d5d5d;
 }
 

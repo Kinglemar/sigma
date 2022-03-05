@@ -2,62 +2,88 @@
   <div>
     <LoginNav />
     <Sidebar />
-    <div class="pt-4 mt-5 bg">
+    <div class="pt-5 mt-5 bg">
       <h3>Register Marketing Consultant</h3>
       <div>
-        <form class="form-width">
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Firstname</p>
-            <input placeholder="Adeleke" v-model="firstname" type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Lastname</p>
-            <input placeholder="Abiodun" v-model="lastname" type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Username</p>
-            <input placeholder="Jendel" v-model="username" type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Phone No</p>
-            <input
-              placeholder="08100000000"
-              v-model="phonenumber"
-              type="text"
-            />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Email</p>
-            <input
-              placeholder="jendel@gmail.com"
-              v-model="email"
-              type="email"
-            />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Gender</p>
-            <!-- <input type="text" /> -->
-            <select name="" v-model="gender" id="">
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-          </div>
-          <div class="d-flex pt-3 justify-content-between">
-            <p class="pt-2">Address</p>
-            <textarea
-              p-4
-              placeholder="Enter Address"
-              v-model="address"
-              rows="4"
-              cols="35"
-            >
-            </textarea>
-          </div>
+        <form @submit.prevent="createNewUser" class="form-width">
+          <b-overlay
+            :show="show"
+            rounded="lg"
+            opacity="0.91"
+            variant="transparent"
+            spinner-variant="success"
+          >
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Firstname</p>
+              <input
+                placeholder="Adeleke"
+                v-model="formData.firstname"
+                type="text"
+                required
+              />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Lastname</p>
+              <input
+                placeholder="Abiodun"
+                v-model="formData.lastname"
+                type="text"
+                required
+              />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Username</p>
+              <input
+                placeholder="Jendel"
+                v-model="formData.username"
+                type="text"
+                required
+              />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Phone No</p>
+              <input
+                placeholder="08100000000"
+                v-model="formData.phonenumber"
+                type="text"
+                required
+              />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Email</p>
+              <input
+                placeholder="jendel@gmail.com"
+                v-model="formData.email"
+                type="email"
+                required
+              />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Gender</p>
+              <!-- <input type="text" /> -->
+              <select name="" v-model="formData.gender" id="" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="d-flex pt-3 justify-content-between">
+              <p class="pt-2">Address</p>
+              <textarea
+                p-4
+                placeholder="Enter Address"
+                v-model="formData.address"
+                rows="4"
+                cols="35"
+                required
+              >
+              </textarea>
+            </div>
 
-          <div class="d-flex justify-content-end mt-5">
-            <button>CREATE MARKETER</button>
-          </div>
+            <div class="d-flex justify-content-end mt-5">
+              <button>CREATE MARKETER</button>
+            </div>
+          </b-overlay>
         </form>
       </div>
     </div>
@@ -65,6 +91,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import LoginNav from "../components/LoginNav.vue";
 import Sidebar from "../components/Sidebar.vue";
 export default {
@@ -75,15 +102,42 @@ export default {
   },
   data() {
     return {
-      addedBy: "admin",
-      firstname: "",
-      lastname: "",
-      username: "",
-      phonenumber: "",
-      email: "",
-      gender: "",
-      address: "",
+      formData: {
+        addedBy: "admin",
+        firstname: "",
+        lastname: "",
+        username: "",
+        phonenumber: "",
+        email: "",
+        gender: "",
+        address: "",
+      },
+      show: true,
+      message: "",
     };
+  },
+
+  methods: {
+    async createNewUser() {
+      this.show = true;
+      try {
+        let response = await axios.post("/marketers", this.form, {
+          headers: {
+            Authorization: localStorage.getItem("Sigma_Admin_Token"),
+          },
+        });
+        if (response.status === 200) {
+          this.message = response.data.message;
+          console.log(this.message);
+        }
+      } catch (error) {
+        this.message = error.message;
+        console.log(this.message);
+      } finally {
+        this.formData = {};
+        this.show = false;
+      }
+    },
   },
 };
 </script>
@@ -91,7 +145,7 @@ export default {
 <style scoped>
 .bg {
   background: #ecffeb;
-  height: 92vh;
+  height: 59.5rem;
   padding-left: 22rem;
   padding-right: 5rem;
 }

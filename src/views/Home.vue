@@ -122,14 +122,7 @@ export default {
         // this.$router.push("/Dashboard");
       } catch (error) {
         // show error
-        if (error === 400) {
-          this.message = error.message;
-          this.show = true;
-        } else if (error) {
-          this.message = error.request;
-        } else {
-          this.message = error;
-        }
+        this.message = "Incorrect Login details";
       } finally {
         this.busy = false;
       }

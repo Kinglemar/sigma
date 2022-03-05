@@ -86,7 +86,7 @@ p {
 }
 
 .marginal {
-  margin-left: 16rem;
+  margin-left: 14rem;
 }
 .bell {
   position: relative;

@@ -8,7 +8,7 @@
         <h2>Marketing Consultants</h2>
       </div>
       <div class="d-flex justify-content-end">
-        <router-link to="/New-marketer">
+        <router-link to="/Newmarketer">
           <span
             class="iconify pb-1"
             data-icon="akar-icons:plus"
@@ -44,7 +44,8 @@
           <div
             v-for="data in datas"
             :key="data.index"
-            class="body row py-4 line mx-3"
+            class="body row click py-4 line mx-3"
+            @click="getUserDetails(data.marketing_consultant_id)"
           >
             <div class="col-sm-3">{{ data.firstname }} {{ data.lastname }}</div>
             <div class="col-sm-3">{{ data.email }}</div>
@@ -121,6 +122,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import axios from "axios";
 import LoginNav from "@/components/LoginNav.vue";
 import Sidebar from "@/components/Sidebar.vue";
@@ -131,7 +133,6 @@ export default {
   },
 
   mounted() {
-    console.log("wow");
     this.getAllUsers();
   },
   data() {
@@ -142,6 +143,29 @@ export default {
   },
 
   methods: {
+    ...mapActions["getUser"],
+    async getUserDetails(marketing_consultant_id) {
+      console.log(marketing_consultant_id);
+
+      try {
+        const query = await axios.get(`/marketers/${marketing_consultant_id}`, {
+          headers: {
+            Authorization: localStorage.getItem("Sigma_Admin_Token"),
+          },
+        });
+        let response = query.data.marketer;
+
+        sessionStorage.setItem("userDetails", JSON.stringify(response));
+        this.$router.push(`/marketerpage/`);
+      } catch (error) {
+        if (error) {
+          return error.message;
+        }
+        if (error.request) {
+          return error.request;
+        }
+      }
+    },
     async getAllUsers() {
       try {
         const query = await axios.get("/marketers", {
@@ -152,8 +176,6 @@ export default {
         let response = query.data.marketers;
 
         this.datas = response;
-
-        console.log(this.datas);
       } catch (error) {
         if (error.response) {
           return error.response.data;
@@ -201,6 +223,9 @@ export default {
   color: #5d5d5d;
 }
 
+.click {
+  cursor: pointer;
+}
 a {
   border: none;
   background: #039226;

@@ -2,10 +2,16 @@
   <div>
     <LoginNav />
     <Sidebar />
+    <b-alert :show="show" class="alert" dismissible variant="success">
+      {{ message }}
+    </b-alert>
+    <b-alert :show="fail" class="alert" dismissible variant="danger">
+      {{ message }}
+    </b-alert>
     <div class="pt-4 mt-5 background">
-      <h3 class="w-50 mb-0">View Marketing Consultant</h3>
-      <div class="d-flex justify-content-center w-75 ml-auto">
-        <b-avatar size="8rem" variant="success" text="B.V" class=""></b-avatar>
+      <h3 class="w-50 mb-3">View Marketing Consultant</h3>
+      <div class="d-flex justify-content-center w- ml75-4">
+        <b-avatar size="6rem" variant="success" text="B.V" class=""></b-avatar>
       </div>
 
       <div class="pb-3">
@@ -13,43 +19,51 @@
       </div>
       <div class="bg">
         <form class="form-width">
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Name</p>
-            <input v-model="name" type="text" />
-          </div>
+          <b-overlay
+            :show="processing"
+            rounded="lg"
+            opacity="0.91"
+            variant="transparent"
+            spinner-variant="success"
+          >
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Name</p>
+              <input v-model="name" type="text" />
+            </div>
 
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Username</p>
-            <input v-model="username" type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Email</p>
-            <input v-model="email" type="email" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Phone Number</p>
-            <input v-model="phonenumber" type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Account Name</p>
-            <input type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Account Number</p>
-            <input type="text" />
-          </div>
-          <div class="d-flex py-2 align-items-center justify-content-between">
-            <p>Bank Name</p>
-            <input type="text" />
-          </div>
-          <div class="d-flex pt-3 justify-content-between">
-            <p class="pt-2">Address</p>
-            <textarea p-4 v-model="address" rows="4" cols="35"> </textarea>
-          </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Username</p>
+              <input v-model="username" type="text" />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Email</p>
+              <input v-model="email" type="email" />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Phone Number</p>
+              <input v-model="phonenumber" type="text" />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Account Name</p>
+              <input type="text" v-model="accountname" />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Account Number</p>
+              <input type="text" v-model="accountnumber" />
+            </div>
+            <div class="d-flex py-2 align-items-center justify-content-between">
+              <p>Bank Name</p>
+              <input type="text" v-model="bankName" />
+            </div>
+            <div class="d-flex pt-3 justify-content-between">
+              <p class="pt-2">Address</p>
+              <textarea p-4 v-model="address" rows="4" cols="35"> </textarea>
+            </div>
 
-          <div class="d-flex justify-content-end mt-5">
-            <button>UPDATE MARKETER</button>
-          </div>
+            <div class="d-flex justify-content-end mt-5">
+              <button>UPDATE MARKETER</button>
+            </div>
+          </b-overlay>
         </form>
       </div>
     </div>
@@ -57,6 +71,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import LoginNav from "../components/LoginNav.vue";
 import Sidebar from "../components/Sidebar.vue";
 export default {
@@ -65,14 +80,79 @@ export default {
     LoginNav,
     Sidebar,
   },
+  data() {
+    return {
+      name: "",
+      username: "",
+      email: "",
+      phonenumber: "",
+      accountname: "",
+      accountnumber: "",
+      bankname: "",
+      address: "",
+
+      message: "",
+      fail: false,
+      show: false,
+      processing: false,
+
+      form: {
+        name: this.name,
+        username: this.username,
+        email: this.email,
+        phonenumber: this.phonenumber,
+        accountname: this.accountname,
+        accountnumber: this.accountnumber,
+        bankname: this.bankname,
+        address: this.address,
+      },
+    };
+  },
+
+  methods: {
+    getUserWithId() {
+      let userBio = sessionStorage.getItem("userDetails");
+      let alter = JSON.parse(userBio);
+      this.username = alter[0].username;
+      this.name = alter[0].name;
+      this.email = alter[0].email;
+      this.phonenumber = alter[0].phonenumber;
+      this.accountname = alter[0].accountname;
+      this.accountnumber = alter[0].accountnumber;
+      this.bankname = alter[0].bankname;
+      this.address = alter[0].address;
+    },
+
+    async updateUserRecords() {
+      try {
+        let response = await axios.put("/marketers", this.form, {
+          headers: {
+            Authorization: localStorage.getItem("Sigma_Admin_Token"),
+          },
+        });
+
+        if (response.status === 200) {
+          this.message = response.data.message;
+        }
+      } catch (error) {
+        if (error) {
+          this.message = "Unable to update try again later";
+        }
+      }
+    },
+  },
+
+  mounted() {
+    this.getUserWithId();
+  },
 };
 </script>
 
 <style scoped>
 .bg {
-  height: 92vh;
-  padding-left: 35rem;
-  /* padding-right: 5rem; */
+  height: 46.5rem;
+  padding-left: 30rem;
+  /* padding-bottom: 10rem; */
 }
 
 .background {
@@ -86,6 +166,7 @@ h3 {
 
 p {
   text-align: center;
+  font-size: 14px;
 }
 .form-width {
   max-width: 500px;
@@ -137,7 +218,7 @@ textarea {
 }
 
 a {
-  margin-left: 22rem;
+  margin-left: 17rem;
   text-decoration: none;
   padding: 1rem;
   border-bottom: 2px solid #9a6b61;
@@ -160,5 +241,14 @@ button {
   background-color: #00932b;
   border-radius: 3px;
   border: 1px solid none;
+}
+
+.alert {
+  width: 300px;
+  height: 3rem;
+  position: absolute;
+  bottom: 8px;
+  margin: 0;
+  left: 1020px;
 }
 </style>
