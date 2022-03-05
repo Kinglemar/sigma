@@ -28,7 +28,6 @@ export default {};
 }
 .dashboard {
   z-index: 80;
-  /* box-shadow: 2px 3px #d4e0d4; */
   background-color: #fff;
   position: absolute;
   top: 0;

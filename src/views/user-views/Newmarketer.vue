@@ -11,6 +11,7 @@
     <div class="pt-5 mt-5 bg">
       <h3>Register Marketing Consultant</h3>
       <div>
+        <!-- event handler to create new user -->
         <form @submit.prevent="createNewUser" class="form-width">
           <b-overlay
             :show="show"
@@ -126,6 +127,7 @@ export default {
   },
 
   methods: {
+    //logic to make request and create a new user
     async createNewUser() {
       this.show = true;
       try {
@@ -134,12 +136,20 @@ export default {
             Authorization: localStorage.getItem("Sigma_Admin_Token"),
           },
         });
+
+        //successful request
         if (response.status === 201) {
           this.message = response.data.message;
           this.success = true;
         }
+
+        //catch error
       } catch (error) {
         if (error.status === 400) {
+          this.message = error.message;
+          this.fail = true;
+        }
+        if (error.status === 503) {
           this.message = error.message;
           this.fail = true;
         }

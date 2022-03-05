@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import dashboard from '../views/user-views/Dashboard'
 import Marketerpage from '../views/user-views/Marketerpage'
 import Newmarketer from '../views/user-views/Newmarketer'
-import UserEntryPages from '../entry-pages/UserEntryPages.vue'
+import UserEntryPages from '../entry-pages/UserEntryPages'
 
 Vue.use(VueRouter)
 
@@ -18,12 +18,14 @@ const routes = [
     },
   },
 
+  // set restrictions to user pages
+
   {
     path: '/dashboard',
     component: UserEntryPages,
     children: [
       {
-        path: '',
+        path: '/',
         name: 'Dashboard',
         component: dashboard,
         meta: {
@@ -31,7 +33,7 @@ const routes = [
         },
       },
       {
-        path: '/dashboard/Marketerpage',
+        path: '/dashboard/marketerpage',
         name: 'Marketerpage',
         component: Marketerpage,
         meta: {
@@ -39,7 +41,7 @@ const routes = [
         },
       },
       {
-        path: '/dashboard/Newmarketer',
+        path: '/dashboard/newmarketer',
         name: 'Newmarketer',
         component: Newmarketer,
         meta: {
@@ -57,9 +59,11 @@ const router = new VueRouter({
   routes,
 })
 
+// check authentication of route before redirect
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (localStorage.getItem('app_token') === null) {
+    if (localStorage.getItem('Sigma_Admin_Token') === null) {
       next('/')
     }
     else next();

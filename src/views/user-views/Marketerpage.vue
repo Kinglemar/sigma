@@ -11,7 +11,12 @@
     <div class="pt-4 mt-5 background">
       <h3 class="w-50 mb-3">View Marketing Consultant</h3>
       <div class="d-flex justify-content-center w- ml75-4">
-        <b-avatar size="6rem" variant="success" text="B.V" class=""></b-avatar>
+        <b-avatar
+          size="6rem"
+          variant="success"
+          :text="initials"
+          class=""
+        ></b-avatar>
       </div>
 
       <div class="pb-3">
@@ -83,6 +88,8 @@ export default {
   data() {
     return {
       name: "",
+      firstname: "",
+      lastname: "",
       username: "",
       email: "",
       phonenumber: "",
@@ -91,6 +98,7 @@ export default {
       bankname: "",
       address: "",
       marketing_consultant_id: "",
+      initials: "",
 
       message: "Marketer Updated",
       fail: false,
@@ -114,8 +122,12 @@ export default {
     getUserWithId() {
       let userBio = sessionStorage.getItem("userDetails");
       let alter = JSON.parse(userBio);
+
+      // setting data properties to be used for v-model
       this.username = alter[0].username;
       this.name = alter[0].name;
+      this.firstname = alter[0].firstname;
+      this.lastname = alter[0].lastname;
       this.email = alter[0].email;
       this.phonenumber = alter[0].phonenumber;
       this.accountname = alter[0].accountname;
@@ -123,6 +135,11 @@ export default {
       this.bankname = alter[0].bankname;
       this.address = alter[0].address;
       this.marketing_consultant_id = alter[0].marketing_consultant_id;
+      // logic to display this.initials
+      let icon = `${
+        alter[0].firstname.charAt(0) + "." + alter[0].lastname.charAt(0)
+      }`;
+      this.initials = icon;
     },
 
     async updateUserRecords() {

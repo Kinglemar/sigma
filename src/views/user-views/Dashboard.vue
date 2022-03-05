@@ -161,7 +161,7 @@ export default {
         let response = query.data.marketer;
 
         sessionStorage.setItem("userDetails", JSON.stringify(response));
-        this.$router.push(`/marketerpage`);
+        this.$router.push(`/dashboard/marketerpage`);
       } catch (error) {
         if (error) {
           return error.message;

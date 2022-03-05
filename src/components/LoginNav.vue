@@ -38,6 +38,8 @@
 import { mapGetters } from "vuex";
 export default {
   name: "LoginNav",
+
+  // get user name and url for display on navbar via store
   computed: {
     ...mapGetters(["adminName", "adminAvatar"]),
   },
@@ -50,7 +52,6 @@ export default {
   position: absolute;
   z-index: 50;
   top: 0;
-  /* background-color: rgb(105, 241, 230); */
   background: #fff;
   width: 100%;
   height: 60px;

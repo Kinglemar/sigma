@@ -3,18 +3,6 @@
     <b-alert :show="show" class="alert" dismissible variant="danger">
       {{ message }}
     </b-alert>
-
-    <div>
-      <b-alert
-        :show="dismissCountDown"
-        dismissible
-        variant="warning"
-        @dismissed="dismissCountDown = 0"
-        @dismiss-count-down="countDownChanged"
-      >
-        {{ message }}
-      </b-alert>
-    </div>
     <div class="home d-flex">
       <!-- green background -->
       <div class="first-half container p-5">
@@ -36,6 +24,8 @@
         <h3 class="pt-5 pb-4">WELCOME BACK</h3>
         <div class="px-5">
           <p class="px-5 py-4 ml-4">Input your details to proceed</p>
+
+          <!-- submit event handler -->
           <form @submit.prevent="loginUser" class="px-5">
             <!-- email address input field -->
             <div class="py-3 ml-4">
@@ -87,7 +77,6 @@
 
 <script>
 import { mapActions } from "vuex";
-// import Loader from "../components/Loader.vue";
 
 export default {
   name: "Login",
@@ -112,6 +101,8 @@ export default {
     ...mapActions({
       loginAdmin: "loginAdmin",
     }),
+
+    //logic to send post request and also invoke store action
     async loginUser() {
       console.log("yay");
       this.busy = true;
@@ -121,17 +112,18 @@ export default {
         this.$router.push("/dashboard");
       } catch (error) {
         // show error
-        this.message = "Incorrect Login details";
+        if (error.status === 400) {
+          this.message = "Incorrect Login details";
+          this.show = true;
+        }
+
+        if (error.status === 503) {
+          this.message = "Network error";
+          this.show = true;
+        }
       } finally {
         this.busy = false;
       }
-    },
-
-    countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
     },
   },
 };
@@ -174,10 +166,6 @@ h4 {
   color: #5d5d5d;
 }
 
-/* .forminputs::placeholder {
-  font-family: "Roboto", sans-serif;
-} */
-
 button {
   background-color: #00932b;
   border-radius: 3px;
@@ -201,7 +189,6 @@ a {
   text-align: end;
   font-weight: 500;
   width: 32vw;
-  /* margin-bottom: 5rem; */
 }
 a:hover {
   text-decoration: none;

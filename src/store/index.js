@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     adminDetails: {},
     token: '',
+    //set admin details to local storage
     detailFromStorage: JSON.parse(localStorage.getItem('admin_informations'))
   }
   ,
@@ -23,9 +24,13 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+
+    //set admin details in state
     SET_DETAILS(state, response) {
       state.adminDetails = response
     },
+
+    //set authentication token
 
     SET_TOKEN(state, token) {
       state.token = token
@@ -37,16 +42,19 @@ export default new Vuex.Store({
         let query = await axios.post('/consultant_auth', { "username": username, "password": password });
         const response = query.data
         if (query.status === 200) {
+          // set token in local storage
           localStorage.setItem('Sigma_Admin_Token', response.token)
+          // set admin details to localstorage
           localStorage.setItem('admin_informations', JSON.stringify(response))
           commit('SET_DETAILS', response)
           commit('SET_TOKEN', response.token)
         }
 
         return query.status
+        //catch errors
 
       } catch (error) {
-        if (error.response) {
+        if (error) {
           return error.response.data;
         }
         else if (error.request) {
