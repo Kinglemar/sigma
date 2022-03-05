@@ -90,7 +90,7 @@ import { mapActions } from "vuex";
 // import Loader from "../components/Loader.vue";
 
 export default {
-  name: "Home",
+  name: "Login",
   mounted() {
     this.showAlert;
   },
@@ -118,7 +118,7 @@ export default {
       try {
         // call login function
         await this.loginAdmin(this.loginInputs);
-        this.$router.push("/Dashboard");
+        this.$router.push("/dashboard");
       } catch (error) {
         // show error
         this.message = "Incorrect Login details";

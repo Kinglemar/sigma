@@ -2,7 +2,7 @@
   <div>
     <LoginNav />
     <Sidebar />
-    <b-alert :show="show" class="alert" dismissible variant="success">
+    <b-alert :show="show" class="alert" dismissible variant="primary">
       {{ message }}
     </b-alert>
     <b-alert :show="fail" class="alert" dismissible variant="danger">
@@ -72,8 +72,8 @@
 
 <script>
 import axios from "axios";
-import LoginNav from "../components/LoginNav.vue";
-import Sidebar from "../components/Sidebar.vue";
+import LoginNav from "../../components/LoginNav.vue";
+import Sidebar from "../../components/Sidebar.vue";
 export default {
   name: "Marketerpage",
   components: {
@@ -92,7 +92,7 @@ export default {
       address: "",
       marketing_consultant_id: "",
 
-      message: "",
+      message: "Marketer Updated",
       fail: false,
       show: false,
       processing: false,
@@ -126,6 +126,7 @@ export default {
     },
 
     async updateUserRecords() {
+      this.processing = true;
       try {
         let response = await axios.put("/marketers", this.form, {
           headers: {
@@ -134,12 +135,18 @@ export default {
         });
 
         if (response.status === 200) {
+          this.getUserDetails();
+          this.getUserWithId();
           this.message = response.data.message;
+          this.show = true;
         }
       } catch (error) {
         if (error) {
           this.message = "Unable to update try again later";
+          this.fail = true;
         }
+      } finally {
+        this.processing = false;
       }
     },
 
@@ -156,7 +163,6 @@ export default {
         let response = query.data.marketer;
 
         sessionStorage.setItem("userDetails", JSON.stringify(response));
-        this.$router.push(`/marketerpage/`);
       } catch (error) {
         if (error) {
           return error.message;
@@ -178,7 +184,6 @@ export default {
 .bg {
   height: 46.5rem;
   padding-left: 30rem;
-  /* padding-bottom: 10rem; */
 }
 
 .background {
@@ -273,8 +278,8 @@ button {
   width: 300px;
   height: 3rem;
   position: absolute;
-  bottom: 8px;
+  top: 80px;
   margin: 0;
-  left: 1020px;
+  left: 1030px;
 }
 </style>

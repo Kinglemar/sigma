@@ -1,57 +1,71 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Newmarketer from "../views/Newmarketer.vue";
-import Marketerpage from "../views/Marketerpage.vue";
-import Dashboard from "../views/Dashboard.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+import dashboard from '../views/user-views/Dashboard'
+import Marketerpage from '../views/user-views/Marketerpage'
+import Newmarketer from '../views/user-views/Newmarketer'
+import UserEntryPages from '../entry-pages/UserEntryPages.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home,
-  },
-  {
-    path: "/Dashboard",
-    name: "Dashboard",
-    component: Dashboard,
     meta: {
-      requiresAuth: true,
+      guest: true,
     },
   },
+
   {
-    path: "/Newmarketer",
-    name: "Newmarketer",
-    component: Newmarketer,
-    meta: {
-      requiresAuth: true,
-    },
+    path: '/dashboard',
+    component: UserEntryPages,
+    children: [
+      {
+        path: '',
+        name: 'Dashboard',
+        component: dashboard,
+        meta: {
+          requiresAuth: true
+        },
+      },
+      {
+        path: '/dashboard/Marketerpage',
+        name: 'Marketerpage',
+        component: Marketerpage,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: '/dashboard/Newmarketer',
+        name: 'Newmarketer',
+        component: Newmarketer,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+    ],
   },
-  {
-    path: "/Marketerpage",
-    name: "Marketerpage",
-    component: Marketerpage,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-];
+
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (localStorage.getItem('app_token') === null) {
+      next('/')
+    }
+    else next();
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    next()
+  }
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (localStorage.getItem('Sigma_Admin_Token') === null) {
-//       next('/Home')
-//     }
-//     else next();
-//   }
-// });
-
-export default router;
+export default router

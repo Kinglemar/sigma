@@ -98,8 +98,8 @@
 
 <script>
 import axios from "axios";
-import LoginNav from "../components/LoginNav.vue";
-import Sidebar from "../components/Sidebar.vue";
+import LoginNav from "../../components/LoginNav.vue";
+import Sidebar from "../../components/Sidebar.vue";
 export default {
   name: "Newmarketer",
   components: {

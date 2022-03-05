@@ -11,7 +11,7 @@
         <h2>Marketing Consultants</h2>
       </div>
       <div class="d-flex justify-content-end">
-        <router-link to="/Newmarketer">
+        <router-link to="/Dashboard/Newmarketer">
           <span
             class="iconify pb-1"
             data-icon="akar-icons:plus"
@@ -130,6 +130,7 @@ import axios from "axios";
 import LoginNav from "@/components/LoginNav.vue";
 import Sidebar from "@/components/Sidebar.vue";
 export default {
+  name: "Dashboard",
   components: {
     LoginNav,
     Sidebar,
