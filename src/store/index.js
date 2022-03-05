@@ -7,11 +7,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    adminDetails: [],
+    adminDetails: {},
     token: '',
-    userDetails: []
+    detailFromStorage: JSON.parse(localStorage.getItem('admin_informations'))
   }
   ,
+  getters: {
+
+    // get admin informations to display on navbar
+    adminName: state => {
+      return state.detailFromStorage.firstname
+    },
+    adminAvatar: state => {
+      return state.detailFromStorage.profile_img_url
+    }
+  },
   mutations: {
     SET_DETAILS(state, response) {
       state.adminDetails = response
@@ -28,9 +38,12 @@ export default new Vuex.Store({
         const response = query.data
         if (query.status === 200) {
           localStorage.setItem('Sigma_Admin_Token', response.token)
+          localStorage.setItem('admin_informations', JSON.stringify(response))
           commit('SET_DETAILS', response)
           commit('SET_TOKEN', response.token)
         }
+
+        return query.status
 
       } catch (error) {
         if (error.response) {

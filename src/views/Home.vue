@@ -118,8 +118,7 @@ export default {
       try {
         // call login function
         await this.loginAdmin(this.loginInputs);
-        // redirect user
-        // this.$router.push("/Dashboard");
+        this.$router.push("/Dashboard");
       } catch (error) {
         // show error
         this.message = "Incorrect Login details";

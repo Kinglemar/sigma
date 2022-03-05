@@ -4,6 +4,9 @@
     <Sidebar />
 
     <div class="pt-4 mt-5 bg">
+      <b-alert :show="success" class="alert" dismissible variant="primary">
+        {{ message }}
+      </b-alert>
       <div>
         <h2>Marketing Consultants</h2>
       </div>
@@ -139,6 +142,7 @@ export default {
     return {
       datas: [],
       message: "",
+      success: false,
     };
   },
 
@@ -156,7 +160,7 @@ export default {
         let response = query.data.marketer;
 
         sessionStorage.setItem("userDetails", JSON.stringify(response));
-        this.$router.push(`/marketerpage/`);
+        this.$router.push(`/marketerpage`);
       } catch (error) {
         if (error) {
           return error.message;
@@ -196,9 +200,12 @@ export default {
         if (response.status === 200) {
           this.message = response;
           console.log(response.data);
+          this.message = response.message;
+          this.success = true;
+          this.getAllUsers();
         }
       } catch (error) {
-        return error;
+        this.message = error.message;
       }
     },
   },
@@ -297,5 +304,14 @@ input {
 
 .bold-head {
   font-weight: 600;
+}
+
+.alert {
+  width: 300px;
+  height: 3rem;
+  position: absolute;
+  top: 65px;
+  margin: 0;
+  left: 1040px;
 }
 </style>

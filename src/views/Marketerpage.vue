@@ -90,6 +90,7 @@ export default {
       accountnumber: "",
       bankname: "",
       address: "",
+      marketing_consultant_id: "",
 
       message: "",
       fail: false,
@@ -121,6 +122,7 @@ export default {
       this.accountnumber = alter[0].accountnumber;
       this.bankname = alter[0].bankname;
       this.address = alter[0].address;
+      this.marketing_consultant_id = alter[0].marketing_consultant_id;
     },
 
     async updateUserRecords() {
@@ -137,6 +139,30 @@ export default {
       } catch (error) {
         if (error) {
           this.message = "Unable to update try again later";
+        }
+      }
+    },
+
+    async getUserDetails() {
+      try {
+        const query = await axios.get(
+          `/marketers/${this.marketing_consultant_id}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("Sigma_Admin_Token"),
+            },
+          }
+        );
+        let response = query.data.marketer;
+
+        sessionStorage.setItem("userDetails", JSON.stringify(response));
+        this.$router.push(`/marketerpage/`);
+      } catch (error) {
+        if (error) {
+          return error.message;
+        }
+        if (error.request) {
+          return error.request;
         }
       }
     },

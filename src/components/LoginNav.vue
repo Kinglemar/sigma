@@ -25,18 +25,22 @@
           ></span>
           <p class="red-dot m-0">0</p>
           <div class="profimgfull">
-            <img src="../assets/avatar.png" alt="" />
+            <img :src="adminAvatar" alt="" />
           </div>
         </div>
-        <p class="m-0 pt-1 profile-name">Hi, Username</p>
+        <p class="m-0 pt-1 profile-name">Hi, {{ adminName }}</p>
       </div>
     </b-navbar>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "LoginNav",
+  computed: {
+    ...mapGetters(["adminName", "adminAvatar"]),
+  },
 };
 </script>
 

@@ -2,6 +2,12 @@
   <div>
     <LoginNav />
     <Sidebar />
+    <b-alert :show="fail" class="alert" dismissible variant="danger">
+      {{ message }}
+    </b-alert>
+    <b-alert :show="success" class="alert" dismissible variant="primary">
+      {{ message }}
+    </b-alert>
     <div class="pt-5 mt-5 bg">
       <h3>Register Marketing Consultant</h3>
       <div>
@@ -112,7 +118,9 @@ export default {
         gender: "",
         address: "",
       },
-      show: true,
+      show: false,
+      fail: false,
+      success: false,
       message: "",
     };
   },
@@ -126,13 +134,15 @@ export default {
             Authorization: localStorage.getItem("Sigma_Admin_Token"),
           },
         });
-        if (response.status === 200) {
+        if (response.status === 201) {
           this.message = response.data.message;
-          console.log(this.message);
+          this.success = true;
         }
       } catch (error) {
-        this.message = error.message;
-        console.log(this.message);
+        if (error.status === 400) {
+          this.message = error.message;
+          this.fail = true;
+        }
       } finally {
         this.formData = {};
         this.show = false;
@@ -215,5 +225,14 @@ button {
   background-color: #00932b;
   border-radius: 3px;
   border: 1px solid none;
+}
+
+.alert {
+  width: 300px;
+  height: 3rem;
+  position: absolute;
+  top: 80px;
+  margin: 0;
+  left: 1020px;
 }
 </style>
