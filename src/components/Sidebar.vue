@@ -32,7 +32,7 @@ export default {};
   position: absolute;
   top: 0;
   width: 220px;
-  height: 62.5rem;
+  min-height: 62.5rem;
   color: #5d5d5d;
 }
 

@@ -23,7 +23,7 @@
         <router-link to="/Marketerpage">PROFILE</router-link>
       </div>
       <div class="bg">
-        <form class="form-width">
+        <form @submit.prevent="updateUserRecords" class="form-width">
           <b-overlay
             :show="processing"
             rounded="lg"
@@ -50,15 +50,15 @@
             </div>
             <div class="d-flex py-2 align-items-center justify-content-between">
               <p>Account Name</p>
-              <input type="text" v-model="accountname" />
+              <input type="text" v-model="accountName" />
             </div>
             <div class="d-flex py-2 align-items-center justify-content-between">
               <p>Account Number</p>
-              <input type="text" v-model="accountnumber" />
+              <input type="text" v-model="accountNumber" />
             </div>
             <div class="d-flex py-2 align-items-center justify-content-between">
               <p>Bank Name</p>
-              <input type="text" v-model="bankName" />
+              <input type="text" v-model="bankname" />
             </div>
             <div class="d-flex pt-3 justify-content-between">
               <p class="pt-2">Address</p>
@@ -92,29 +92,20 @@ export default {
       lastname: "",
       username: "",
       email: "",
+      gender: "",
       phonenumber: "",
-      accountname: "",
-      accountnumber: "",
+      accountName: "",
+      accountNumber: "",
       bankname: "",
       address: "",
-      marketing_consultant_id: "",
+      marketingconsultantid: "",
       initials: "",
+      bankcode: "",
 
       message: "Marketer Updated",
       fail: false,
       show: false,
       processing: false,
-
-      form: {
-        name: this.name,
-        username: this.username,
-        email: this.email,
-        phonenumber: this.phonenumber,
-        accountname: this.accountname,
-        accountnumber: this.accountnumber,
-        bankname: this.bankname,
-        address: this.address,
-      },
     };
   },
 
@@ -129,12 +120,15 @@ export default {
       this.firstname = alter[0].firstname;
       this.lastname = alter[0].lastname;
       this.email = alter[0].email;
+      this.gender = alter[0].gender;
       this.phonenumber = alter[0].phonenumber;
-      this.accountname = alter[0].accountname;
-      this.accountnumber = alter[0].accountnumber;
+      this.accountName = alter[0].account_name;
+      this.accountNumber = alter[0].account_number;
       this.bankname = alter[0].bankname;
+      // this.bankcode = alter[0].bankcode;
       this.address = alter[0].address;
-      this.marketing_consultant_id = alter[0].marketing_consultant_id;
+      this.marketingconsultantid = alter[0].marketing_consultant_id;
+      console;
       // logic to display this.initials
       let icon = `${
         alter[0].firstname.charAt(0) + "." + alter[0].lastname.charAt(0)
@@ -145,21 +139,36 @@ export default {
     async updateUserRecords() {
       this.processing = true;
       try {
-        let response = await axios.put("/marketers", this.form, {
-          headers: {
-            Authorization: localStorage.getItem("Sigma_Admin_Token"),
+        let response = await axios.put(
+          "/marketers",
+          {
+            firstname: this.firstname,
+            lastname: this.lastname,
+            phonenumber: this.phonenumber,
+            email: this.email,
+            gender: this.gender,
+            address: this.address,
+            marketingConsultantId: this.marketingconsultantid,
+            bankname: this.bankname,
+            bankcode: this.bankcode,
+            accountNumber: this.accountNumber,
+            accountName: this.accountName,
           },
-        });
+          {
+            headers: {
+              Authorization: localStorage.getItem("Sigma_Admin_Token"),
+            },
+          }
+        );
 
         if (response.status === 200) {
           this.getUserDetails();
-          this.getUserWithId();
           this.message = response.data.message;
           this.show = true;
         }
       } catch (error) {
         if (error) {
-          this.message = "Unable to update try again later";
+          this.message = error.message;
           this.fail = true;
         }
       } finally {
@@ -170,7 +179,7 @@ export default {
     async getUserDetails() {
       try {
         const query = await axios.get(
-          `/marketers/${this.marketing_consultant_id}`,
+          `/marketers/${this.marketingconsultantid}`,
           {
             headers: {
               Authorization: localStorage.getItem("Sigma_Admin_Token"),
@@ -199,7 +208,7 @@ export default {
 
 <style scoped>
 .bg {
-  height: 46.5rem;
+  min-height: 46.5rem;
   padding-left: 30rem;
 }
 
@@ -292,11 +301,11 @@ button {
 }
 
 .alert {
-  width: 300px;
+  width: 340px;
   height: 3rem;
   position: absolute;
   top: 80px;
   margin: 0;
-  left: 1030px;
+  left: 1000px;
 }
 </style>

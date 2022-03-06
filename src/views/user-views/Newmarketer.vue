@@ -131,7 +131,7 @@ export default {
     async createNewUser() {
       this.show = true;
       try {
-        let response = await axios.post("/marketers", this.form, {
+        let response = await axios.post("/marketers", this.formData, {
           headers: {
             Authorization: localStorage.getItem("Sigma_Admin_Token"),
           },
@@ -165,7 +165,7 @@ export default {
 <style scoped>
 .bg {
   background: #ecffeb;
-  height: 59.5rem;
+  min-height: 59.5rem;
   padding-left: 22rem;
   padding-right: 5rem;
 }

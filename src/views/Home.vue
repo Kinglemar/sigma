@@ -112,15 +112,15 @@ export default {
         this.$router.push("/dashboard");
       } catch (error) {
         // show error
-        if (error.status === 400) {
-          this.message = "Incorrect Login details";
+        if (error) {
+          this.message = error.message;
           this.show = true;
         }
 
-        if (error.status === 503) {
-          this.message = "Network error";
-          this.show = true;
-        }
+        // if (error.status === 503) {
+        //   this.message = "Network error";
+        //   this.show = true;
+        // }
       } finally {
         this.busy = false;
       }

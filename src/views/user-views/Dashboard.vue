@@ -48,13 +48,12 @@
             v-for="data in datas"
             :key="data.index"
             class="body row click py-4 line mx-3"
-            @click="getUserDetails(data.marketing_consultant_id)"
           >
             <div class="col-sm-3">{{ data.firstname }} {{ data.lastname }}</div>
             <div class="col-sm-3">{{ data.email }}</div>
             <div class="col-sm-2">{{ data.phonenumber }}</div>
             <div class="col-sm-2">{{ data.username }}</div>
-            <div @click="deleteMarketer(data.username)" class="col-sm-1 point">
+            <div class="col-sm-1 point" @click="deleteMarketer(data.username)">
               <span
                 class="iconify"
                 data-icon="bxs:trash-alt"
@@ -63,7 +62,10 @@
                 data-height="20"
               ></span>
             </div>
-            <div class="col-sm-1">
+            <div
+              class="col-sm-1"
+              @click="getUserDetails(data.marketing_consultant_id)"
+            >
               <span
                 class="iconify"
                 data-icon="ic:outline-navigate-next"
@@ -216,13 +218,12 @@ export default {
 <style scoped>
 .bg {
   background: #ecffeb;
-  height: 92vh;
+  min-height: 59.5rem;
   padding-left: 18rem;
   padding-right: 5rem;
 }
 .line {
   border-bottom: 1px solid #dfdfdf;
-  /* margin: 0.7rem 1rem; */
 }
 
 .header .row {
